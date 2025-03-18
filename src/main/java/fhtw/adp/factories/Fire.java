@@ -1,4 +1,4 @@
-package fhtw.adp.factory;
+package fhtw.adp.factories;
 
 import fhtw.adp.PokemonAbstract;
 

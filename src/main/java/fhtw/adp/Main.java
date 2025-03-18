@@ -1,19 +1,109 @@
 package fhtw.adp;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        // Press Opt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        SingletonAdoptionCenter singletonAdoptionCenter = SingletonAdoptionCenter.getInstance();
+        Scanner scanner = new Scanner(System.in);
 
-        // Press Ctrl+R or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        System.out.println("Welcome to Pokemon Adoption Center ^_^");
 
-            // Press Ctrl+D to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Cmd+F8.
-            System.out.println("i = " + i);
+        while (true) {
+            System.out.println("\n1. Register User\n2. Adopt a Pokemon\n3. Show Available Pokemons\n4. Exit");
+            System.out.print("Choose an option: ");
+            int choose = scanner.nextInt();
+            scanner.nextLine(); // Fixes input skipping issue
+
+            switch (choose) {
+                case 1:
+                    System.out.print("Enter user name: ");
+                    String userName = scanner.nextLine();
+                    ObserverUserNotification user = new ObserverUserNotification(userName);
+                    singletonAdoptionCenter.registerUser(user);
+                    System.out.println("User " + userName + " registered successfully!");
+                    break;
+
+                case 2:
+                    System.out.print("Enter Pokemon name: ");
+                    String pokemonName = scanner.nextLine();
+                    System.out.print("Enter Pokemon type (Electric, Fire, Ghost, Normal, Water): ");
+                    String pokemonType = scanner.nextLine();
+
+                    try {
+                        PokemonAbstract newPokemon = FactoryCreatePokemon.createPokemon(pokemonType, pokemonName);
+                        singletonAdoptionCenter.addPokemon(newPokemon);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Invalid type. Please try again.");
+                    }
+                    break;
+
+                case 3:
+                    singletonAdoptionCenter.showAvailablePokemons();
+                    break;
+
+                case 4:
+                    System.out.println("Thank you for using Pokemon Adoption Center! See You Again :)");
+                    return;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
         }
     }
 }
+
+
+/*
+public class Main {
+
+    public static void main(String[] args) {
+
+        SingletonAdoptionCenter singletonAdoptionCenter = SingletonAdoptionCenter.getInstance();
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcomm to Pokemon Adoption Center ^_^");
+        System.out.println("Please enter your name :");
+        String userName = scanner.nextLine();
+
+        ObserverUserNotification user = new ObserverUserNotification(userName);
+
+        singletonAdoptionCenter.registerUser(user);
+
+        while (true){
+            System.out.println("\n1. Adopt a Pokemon\n2. Show Available Pokemons\n3. Exit");
+            int choose = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choose){
+                case 1:
+                    System.out.println("Enter pokemon name:");
+                    String pokemonName = scanner.nextLine();
+                    System.out.println("Enter pokemon type (Electric, Fire, Ghost, Normal, Water):");
+                    String pokemonType = scanner.nextLine();
+
+                try {
+                        PokemonAbstract newPokemon = FactoryCreatePokemon.createPokemon(pokemonType, pokemonName);
+                        singletonAdoptionCenter.addPokemon(newPokemon);
+                        System.out.println(pokemonName + "[" + pokemonType + "]" + "The Pokemon has been added to the adoption center");
+                    } catch (IllegalArgumentException e){
+                        System.out.println("Invalid type. Please try again.");
+                    }
+                    break;
+
+                case 2:
+                    singletonAdoptionCenter.showAvailablePokemons();
+                    break;
+
+                case 3:
+                    System.out.println("Thank you for using Pokemon Adoption Center! See You Again :)");
+                    return;
+
+                default:
+                    System.out.println("Invalid, Please try again.");
+            }
+        }
+    }
+}
+ */
