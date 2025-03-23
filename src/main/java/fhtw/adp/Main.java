@@ -13,7 +13,7 @@ public class Main {
             System.out.println("\n1. Register User\n2. Adopt a Pokemon\n3. Show Available Pokemons\n4. Exit");
             System.out.print("Choose an option: ");
             int choose = scanner.nextInt();
-            scanner.nextLine(); // Fixes input skipping issue
+            scanner.nextLine(); 
 
             switch (choose) {
                 case 1:
